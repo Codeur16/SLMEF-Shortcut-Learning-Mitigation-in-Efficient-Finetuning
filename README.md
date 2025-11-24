@@ -1,7 +1,7 @@
 # Shortcut-Learning-Mitigation-in-Efficient-Finetuning
 A Neuro-Symbolic Approach for Reducing Shortcut Learning in Large Language Models
 
-## System Architechture
+## System Architecture
 ![alt text](Images/System-Architechture.png)
 
 ## Presentation
