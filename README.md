@@ -30,7 +30,8 @@ The experimentation environment for the project typically includes:
 ![alt text](Images/Experimentation.png)
 <!-- <img width="1418" height="746" alt="Frame 618 (1)" src="https://github.com/user-attachments/assets/fda794da-1345-419d-9342-f38303d1ef1c" /> -->
 
-## 🗂️ Structure du dépôt
+## 🗂️ Structure of the repository
+``` 
 Shortcut-Learning-Mitigation-in-Efficient-Finetuning/
 │
 ├── data/           
@@ -50,7 +51,7 @@ Shortcut-Learning-Mitigation-in-Efficient-Finetuning/
 ├── models/
 ├── results/
 └── README.md
-
+```
 ## Contacts
   * charlesnjiosseu@gmail.com
   * author-2@gmail.com
