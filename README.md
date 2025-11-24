@@ -2,7 +2,7 @@
 A Neuro-Symbolic Approach for Reducing Shortcut Learning in Large Language Models
 
 ## System Architechture
-![alt text](Images/Experimentation.png)
+![alt text](Images/System-Architechture.png)
 
 ## Presentation
 Large Language Models (LLMs) have opened new perspectives in artificial intelligence, but their reliability is often undermined by the phenomenon of shortcut learning. This issue leads models to rely on superficial and easily exploitable cues in the data, at the expense of true and generalizable understanding. Mitigating this bias is a crucial challenge to ensure model robustness in varied contexts.
@@ -27,8 +27,8 @@ The experimentation environment for the project typically includes:
   * Data used: MultiNLI for standard training; adversarial datasets HANS and MNLI-hard for robustness evaluation.
   * Evaluation metrics include model accuracy, robustness to shortcut learning, calibration, training time, and number of trainable parameters.
 #### Experimental Architechture 
-![alt text](Images/System-Architechture.png)
-<img width="1418" height="746" alt="Frame 618 (1)" src="https://github.com/user-attachments/assets/fda794da-1345-419d-9342-f38303d1ef1c" />
+![alt text](Images/Experimentation.png)
+<!-- <img width="1418" height="746" alt="Frame 618 (1)" src="https://github.com/user-attachments/assets/fda794da-1345-419d-9342-f38303d1ef1c" /> -->
 
 ## Contacts
   * charlesnjiosseu@gmail.com
