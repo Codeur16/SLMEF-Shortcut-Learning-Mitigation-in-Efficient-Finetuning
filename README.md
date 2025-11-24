@@ -27,4 +27,4 @@ The experimentation environment for the project typically includes:
 
 ## Contacts
   * charlesnjiosseu@gmail.com
-  * author2@gmail.com
+  * author-2@gmail.com
