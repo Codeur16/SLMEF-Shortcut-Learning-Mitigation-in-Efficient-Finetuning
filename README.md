@@ -1,4 +1,4 @@
-# Shortcut-Learning-Mitigation-in-Efficient-Finetuning
+# Experimentations for Shortcut-Learning-Mitigation-in-Efficient-Finetuning
 A Neuro-Symbolic Approach for Reducing Shortcut Learning in Large Language Models integrates efficient fine-tuning techniques.
 
 ## System Architecture

@@ -1,18 +1,31 @@
 # Build and Release Folders
-bin-debug/
-bin-release/
-[Oo]bj/
-[Bb]in/
-
-# Other files and folders
-.settings/
-
-# Executables
-*.swf
-*.air
-*.ipa
-*.apk
-
-# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
-# should NOT be excluded as they contain compiler settings and other important
-# information for Eclipse / Flash Builder.
+__pycache__/
+.vscode
+venv/
+.env
+toy_submission*.zip
+oasst1.csv
+test.py
+logs.txt
+text
+*.pyc
+.DS_Store
+.vscode/
+data/
+logs/
+uecfood256_sampled/
+model_saved/
+data.json
+*.log
+dataset/
+UECFOOD256/
+cached_dataset/
+*.ipynb
+raw/
+uecfood256_sample.zip
+results/
+dataset.zip
+data.json
+exported_usda_food.json
+*.tex
+baby_back_ribs.jpg

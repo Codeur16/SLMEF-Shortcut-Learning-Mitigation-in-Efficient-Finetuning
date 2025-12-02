@@ -1,0 +1,32 @@
+name: "flant5"
+# Name of the HuggingFace model
+hf_model: "google/flan-t5-large"
+
+# Precision and quantization settings
+dtype: "fp16"
+load_in_4bit: true
+
+quantization_config:
+  bnb_4bit_compute_dtype: "float16"
+  bnb_4bit_quant_type: "nf4"
+  bnb_4bit_use_double_quant: true
+
+# Training parameters
+learning_rate: 2e-4
+batch_size: 4
+num_epochs: 3
+max_length: 512
+
+# QLoRA parameters
+qlora:
+  r: 16
+  alpha: 32
+  dropout: 0.05
+  target_modules:
+    - "q"   # Transforme les embeddings en vecteurs Query
+    - "k"   # Transforme les embeddings en vecteurs Key
+    - "v"   # Crée les vecteurs Value
+    - "o"   # Output projection
+    # - "wi_0"
+    # - "wi_1"
+    # - "wo"
