@@ -1,53 +1,136 @@
-# Experimentations for Shortcut-Learning-Mitigation-in-Efficient-Finetuning
-A Neuro-Symbolic Approach for Reducing Shortcut Learning in Large Language Models integrates efficient fine-tuning techniques.
+# SLMEF: Shortcut Learning Mitigation in Efficient Fine-tuning
 
-## System Architecture
-![alt text](Images/System-Architechture.png)
+![System Architecture](Images/System-Architechture.png)
 
-## Presentation
-Large Language Models (LLMs) have opened new perspectives in artificial intelligence, but their reliability is often undermined by the phenomenon of shortcut learning. This issue leads models to rely on superficial and easily exploitable cues in the data, at the expense of true and generalizable understanding. Mitigating this bias is a crucial challenge to ensure model robustness in varied contexts.
-The SLMEF project focuses on experimenting with the tradeoff between robustness against shortcut learning and the computational efficiency of fine-tuning, especially in resource-limited environments. By combining efficient fine-tuning techniques with neuro-symbolic approaches integrating logical constraints, SLMEF aims to enhance model reliability while maintaining controlled resource usage. This approach is designed to enable more robust fine-tuning accessible to a wide range of models and users, even under hardware limitations.﻿
-## Research Methodology
-The research methodology of the SLMEF project involves combining parameter-efficient fine-tuning techniques with neuro-symbolic logical constraints integration, conducting systematic experiments to evaluate the tradeoff between shortcut learning mitigation and computational efficiency on large language models, using prepared datasets, adversarial benchmarks, and iterative rule tuning to optimize model robustness and performance, especially in resource-constrained environments.
-## Objectives
-The main objective of this work is to experimentally investigate the tradeoff between robustness against shortcut learning and computational efficiency during fine-tuning of large language models, by combining parameter-efficient fine-tuning with neuro-symbolic methods integrating logical constraints, to enable more reliable and resource-conscious adaptation of models in resource-limited environments.
-## Approaches to test
-Here are commonly tested approaches:
-  * Benchmarking on standard datasets to verify baseline accuracy and general task performance.
-  * Testing robustness on adversarial or out-of-distribution datasets designed to expose shortcut learning vulnerabilities.
-  * Comparative evaluation against existing fine-tuning and shortcut mitigation methods, such as PEFT techniques alone or other neuro-symbolic approaches.
-  * Ablation studies varying the presence of symbolic constraints or different hyperparameter settings to analyze their impact on robustness and efficiency.
-  * Efficiency assessment including computational cost, memory usage, and training time to understand tradeoffs with robustness improvements.
-## Experimentations
-#### Experimentation environment
-The experimentation environment for the project typically includes:
-  * Cloud-based GPU virtual machines on Kaggle platform featuring 2 NVIDIA Tesla T4 GPUs (16GB each), dual-core Intel Xeon CPUs at 2.2 GHz, and 13GB RAM.
-  * Local Ubuntu machine with Intel Core i5 CPU, 16GB RAM, and integrated Intel UHD Graphics GPU used primarily for data preprocessing.
-  * Software stack includes Python, PyTorch 2.5, Hugging Face Transformers v4.53.3, and PEFT library for LoRA implementation.
-  * Data used: MultiNLI for standard training; adversarial datasets HANS and MNLI-hard for robustness evaluation.
-  * Evaluation metrics include model accuracy, robustness to shortcut learning, calibration, training time, and number of trainable parameters.
-#### Experimental Architechture 
-![alt text](Images/Experimentation.png)
-<!-- <img width="1418" height="746" alt="Frame 618 (1)" src="https://github.com/user-attachments/assets/fda794da-1345-419d-9342-f38303d1ef1c" /> -->
+##  Aperçu
 
-## 🗂️ Structure of the repository
-``` 
-Shortcut-Learning-Mitigation-in-Efficient-Finetuning/
+SLMEF est un projet de recherche visant à atténuer l'apprentissage par raccourci (shortcut learning) dans les grands modèles de langage (LLMs) tout en maintenant une efficacité computationnelle optimale. Ce projet combine des techniques de fine-tuning efficace des paramètres avec des approches neuro-symboliques pour améliorer la robustesse des modèles dans des environnements à ressources limitées.
+
+##  Fonctionnalités
+
+- Intégration de contraintes logiques neuro-symboliques
+- Techniques de fine-tuning efficace (PEFT, LoRA)
+- Évaluation robuste sur des benchmarks adversariaux
+- Optimisation pour matériel limité
+- Métriques complètes d'évaluation
+
+## 🛠 Installation
+
+1. Cloner le dépôt :
+```bash
+git clone https://github.com/Codeur16/SLMEF-Shortcut-Learning-Mitigation-in-Efficient-Finetuning.git
+cd SLMEF-Shortcut-Learning-Mitigation-in-Efficient-Finetuning
+```
+
+2. Créer et activer l'environnement virtuel :
+```bash
+python -m venv .venv
+source .venv/bin/activate  # Sur Linux/Mac
+# ou
+.venv\Scripts\activate     # Sur Windows
+```
+
+3. Installer les dépendances :
+```bash
+pip install -r requirements.txt
+```
+
+## 🏗 Structure du Projet
+
+```
+SLMEF-Shortcut-Learning-Mitigation-in-Efficient-Finetuning/
 │
-├── data/           
-├── data_preprocessed/
-├── src/
-│   ├── detection/
-│   ├── symbolic/
-│   ├── finetuning/
-│   ├── evaluation/
-│   └── utils/
+├── configs/           # Fichiers de configuration
+├── data/              # Données brutes
+│   ├── raw/           
+│   └── processed/     
 │
-├── experiments/
-│   ├── exp1/
-│   ├── exp2/
-│   └── ...
+├── notebooks/         # Notebooks d'analyse et d'expérimentation
+├── outputs/           # Sorties des modèles et résultats
+│   ├── models/        
+│   └── predictions/   
 │
+├── src/               # Code source
+│   ├── detection/     # Détection des biais et raccourcis
+│   ├── symbolic/      # Intégration des contraintes symboliques
+│   ├── finetuning/    # Implémentation des techniques de fine-tuning
+│   ├── evaluation/    # Métriques et évaluations
+│   └── utils/         # Utilitaires
+│
+└── tests/             # Tests unitaires et d'intégration
+```
+
+## 🧪 Expérimentations
+
+### Environnement
+
+- **Matériel** :
+  - Cloud : 2× NVIDIA Tesla T4 (16GB), 2× Intel Xeon 2.2GHz, 13GB RAM
+  - Local : Intel Core i5, 16GB RAM, Intel UHD Graphics
+
+- **Stack logicielle** :
+  - Python 3.8+
+  - PyTorch 2.5
+  - Hugging Face Transformers v4.53.3
+  - PEFT et LoRA
+
+### Jeux de données
+
+- **Entraînement** : MultiNLI
+- **Évaluation** : HANS, MNLI-hard (benchmarks adversariaux)
+- **Métriques** :
+  - Précision
+  - Robustesse aux raccourcis
+  - Temps d'entraînement
+  - Nombre de paramètres entraînables
+
+##  Lancement
+
+1. Préparer les données :
+```bash
+python -m src.data_preparation.prepare_data --config configs/data_config.yaml
+```
+
+2. Lancer l'entraînement :
+```bash
+python -m src.train --config configs/train_config.yaml
+```
+
+3. Évaluer le modèle :
+```bash
+python -m src.evaluate --model_path outputs/models/best_model --test_data data/processed/test.jsonl
+```
+
+##  Visualisation des Résultats
+
+Les résultats sont sauvegardés dans le dossier `outputs/` :
+- `outputs/logs/` : Journaux d'entraînement
+- `outputs/checkpoints/` : Points de contrôle des modèles
+- `outputs/figures/` : Graphiques et visualisations
+
+Pour visualiser les résultats :
+```bash
+tensorboard --logdir=outputs/logs/
+```
+
+##  Contribution
+
+Les contributions sont les bienvenues ! Pour contribuer :
+1. Forkez le projet
+2. Créez une branche (`git checkout -b feature/AmazingFeature`)
+3. Committez vos changements (`git commit -m 'Add some AmazingFeature'`)
+4. Poussez vers la branche (`git push origin feature/AmazingFeature`)
+5. Ouvrez une Pull Request
+
+##  Licence
+
+Distribué sous licence MIT. Voir `LICENSE` pour plus d'informations.
+
+##  Contact
+
+[Votre Nom] - [votre.email@example.com]
+
+Lien du projet : [https://github.com/Codeur16/SLMEF-Shortcut-Learning-Mitigation-in-Efficient-Finetuning](https://github.com/Codeur16/SLMEF-Shortcut-Learning-Mitigation-in-Efficient-Finetuning)
 ├── models/
 ├── results/
 └── README.md

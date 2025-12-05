@@ -16,7 +16,7 @@ class BaseModel:
       - saving
     """
     
-    def __init__(self, model_name, exp_type,  checkpoint=None ):
+    def __init__(self, model_name, exp_type, checkpoint=None):
         self.config = load_yaml_config(model_name)
         # Some model implementations expect `self.cfg` — keep alias for compatibility
         self.cfg = self.config

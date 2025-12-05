@@ -1,7 +1,18 @@
+# Standard libraries
 python-dotenv
+datetime
+# Datasets and libraries
 datasets
 transformers
 requests
-# sklearn
+scikit-learn
 Pillow
 torchvision
+
+# Models and pipelines
+peft
+bitsandbytes
+accelerate
+
+# Model tokenization
+sentencepiece

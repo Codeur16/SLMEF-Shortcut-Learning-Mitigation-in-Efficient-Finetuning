@@ -1,32 +1,56 @@
-name: "flant5"
-# Name of the HuggingFace model
-hf_model: "google/flan-t5-large"
 
-# Precision and quantization settings
-dtype: "fp16"
-load_in_4bit: true
+name: "flant5"
+
+# Nom exact du modèle HuggingFace chargé
+hf_model: "google/flan-t5-small"
+# hf_model: "google/flan-t5-large"
+
+# ------------------------------
+# Précision & Quantification
+# ------------------------------
+dtype: "fp16"        # si pas de 4bit => torch_dtype=float16
+load_in_4bit: true   # active QLoRA automatiquement
 
 quantization_config:
   bnb_4bit_compute_dtype: "float16"
   bnb_4bit_quant_type: "nf4"
   bnb_4bit_use_double_quant: true
 
-# Training parameters
+# ------------------------------
+# Paramètres d’entraînement
+# ------------------------------
 learning_rate: 2e-4
 batch_size: 4
-num_epochs: 3
-max_length: 512
+epochs: 3
 
-# QLoRA parameters
+# Longueurs utilisées dans preprocess()
+max_input_length: 512
+max_target_length: 64
+
+# ------------------------------
+# Mapping des labels (nécessaire dans preprocess)
+# ------------------------------
+label_map:
+  "0": "entailment"
+  "1": "neutral"
+  "2": "contradiction"
+
+# ------------------------------
+# QLoRA
+# ------------------------------
 qlora:
   r: 16
   alpha: 32
   dropout: 0.05
   target_modules:
-    - "q"   # Transforme les embeddings en vecteurs Query
-    - "k"   # Transforme les embeddings en vecteurs Key
-    - "v"   # Crée les vecteurs Value
-    - "o"   # Output projection
-    # - "wi_0"
-    # - "wi_1"
-    # - "wo"
+    - "q"
+    - "k"
+    - "v"
+    - "o"
+
+# ------------------------------
+# Optionnel - HuggingFace Hub
+# ------------------------------
+push_to_hub: true
+hf_repo: "CHARLESL16/Flant5"
+hf_token: "your_huggingface_token_here "
