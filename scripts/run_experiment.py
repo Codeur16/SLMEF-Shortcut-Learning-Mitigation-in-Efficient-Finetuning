@@ -84,6 +84,45 @@ def run_experiment(
     logger.info("Tokenizing dataset...")
     tokenizer = ModelFactory.get_tokenizer(model_name, config.get("model_name"))
     
+
+
+
+
+
+    # Obtenez le model_name depuis la config, avec une valeur par défaut
+    model_name = config.get("model_name")
+    if not model_name:
+        # Utiliser une valeur par défaut basée sur model_type
+        model_type = config.get("model_type", "bert")
+        if model_type == "bert":
+            model_name = "bert-base-uncased"
+        elif model_type == "roberta":
+            model_name = "roberta-base"
+        elif model_type == "flan-t5":
+            model_name = "google/flan-t5-base"
+        elif model_type == "llama":
+            model_name = "meta-llama/Llama-2-7b-hf"
+        elif model_type == "mistral":
+            model_name = "mistralai/Mistral-7B-v0.1"
+        else:
+            model_name = "bert-base-uncased"
+        
+        logger.warning(f"No model_name specified in config, using default for {model_type}: {model_name}")
+
+    # Maintenant appelez get_tokenizer avec les bons paramètres
+    tokenizer = ModelFactory.get_tokenizer(config.get("model_type", "bert"), model_name)
+
+
+
+
+
+
+
+
+
+
+
+
     max_length = config.get("max_length", 512)
     tokenized_id, tokenized_ood = dataset.tokenize(tokenizer, max_length)
     

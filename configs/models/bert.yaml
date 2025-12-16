@@ -1,4 +1,16 @@
+# Options pour model_name :
+# - "bert-base-uncased"
+# - "bert-large-uncased"
+# - "roberta-base"
+# - "roberta-large"
+# - "albert-base-v2"
+# - "distilbert-base-uncased"
+# - "google/flan-t5-base"  (avec model_type: "flan-t5")
+# - "meta-llama/Llama-2-7b-hf"  (avec model_type: "llama")
+# - "mistralai/Mistral-7B-v0.1"  (avec model_type: "mistral")
+
 model_type: "bert"
+model_name: "bert-base-uncased"  # Modèle spécifique à charger depuis HuggingFace
 architecture: "encoder"
 
 # Model details
