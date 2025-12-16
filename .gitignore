@@ -1,90 +1,32 @@
-# Build and Release Folders
-__pycache__/
-.vscode
-venv/
-.env
-toy_submission*.zip
-oasst1.csv
-test.py
-logs.txt
-text
-*.pyc
-.DS_Store
-.vscode/
-# data/
-logs/
-uecfood256_sampled/
-model_saved/
-data.json
-*.log
-dataset/
-UECFOOD256/
-cached_dataset/
-*.ipynb
-raw/
-uecfood256_sample.zip
-results/
-dataset.zip
-data.json
-exported_usda_food.json
-*.tex
-baby_back_ribs.jpg
-# Data
-# data/
-cache/
-experiments/
-*.csv
-*.parquet
-*.pkl
-*.pickle
+# =========================
+# Machine Learning / NLP
+# =========================
 
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-
-# Virtual environments
-venv/
-env/
-.env
-.venv
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# Jupyter
-.ipynb_checkpoints/
-
-# Logs
-logs/
-wandb/
-*.log
-
-# Models
+# Model checkpoints
 *.bin
 *.safetensors
+*.pt
+*.ckpt
 checkpoints/
+models/
+
+# HuggingFace / Transformers
+.cache/
+hf_cache/
+datasets/
+__pycache__/
+
+# Kaggle
+/kaggle/working/.cache/
+
+# Logs & tracking
+wandb/
+logs/
+*.log
+
+# Experiments outputs (optional, keep metrics only)
+experiments/**/predictions*
+experiments/**/checkpoints*
 
 # OS
 .DS_Store
-Thumbs.db
