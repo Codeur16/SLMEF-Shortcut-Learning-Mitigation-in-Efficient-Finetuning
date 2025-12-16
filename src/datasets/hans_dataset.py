@@ -50,7 +50,21 @@ class HANSDataset(Dataset):
         if label == 'entailment':
             return 0  # entailment
         return 1  # neutral (treat non-entailment as neutral for compatibility)
-    
+    def map(self, function, **kwargs):
+        """
+        Apply a function to each example in the dataset.
+        This is implemented for compatibility with HuggingFace datasets.
+        """
+        new_data = []
+        for example in self.data:
+            result = function(example)
+            if result is not None:  # Skip examples that are filtered out
+                new_data.append(result)
+        
+        # Create a new dataset with the transformed data
+        new_dataset = HANSDataset(self.file_path)
+        new_dataset.data = new_data
+        return new_dataset
     def __len__(self):
         return len(self.data)
     
