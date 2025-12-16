@@ -1,4 +1,4 @@
-from .config_loader import load_config, merge_configs
+from .config_loader import load_config, merge_configs, load_experiment_config
 from .logger import setup_logger, setup_experiment_logging
 from .helpers import set_seed, save_results, load_results
 
@@ -10,4 +10,5 @@ __all__ = [
     "set_seed",
     "save_results",
     "load_results",
+    "load_experiment_config",
 ]
