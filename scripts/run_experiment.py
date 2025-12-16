@@ -6,6 +6,7 @@ Run a single experiment
 import argparse
 import os
 import sys
+import torch
 from datetime import datetime
 
 # Add src to path
@@ -31,13 +32,18 @@ def run_experiment(
     exp_type: str,
     config_dir: str = "configs",
     output_dir: str = "experiments",
-    device: str = "cuda",
+    device: str = None,  # Will auto-detect if None
     seed: int = 42
 ):
     """Run a single experiment"""
     
-    # Set seed
+    # Set seed and device
     set_seed(seed)
+    
+    # Auto-detect device if not specified
+    if device is None:
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+    logger.info(f"Using device: {device}")
     
     # Load configuration
     logger.info(f"Loading configuration for {model_name}/{task_name}/{exp_type}")
@@ -188,17 +194,14 @@ def run_experiment(
     return results
 
 def main():
-    parser = argparse.ArgumentParser(description="Run a single RG-PEFT experiment")
-    parser.add_argument("--model", type=str, required=True,
-                       choices=["bert", "roberta", "flant5", "llama", "mistral"])
-    parser.add_argument("--task", type=str, required=True,
-                       choices=["nli", "sentiment", "qa", "paraphrase"])
-    parser.add_argument("--exp_type", type=str, required=True,
-                       choices=["base_eval", "qlora_ft", "rgpeft"])
-    parser.add_argument("--config_dir", type=str, default="configs")
-    parser.add_argument("--output_dir", type=str, default="experiments")
-    parser.add_argument("--device", type=str, default="cuda")
-    parser.add_argument("--seed", type=int, default=42)
+    parser = argparse.ArgumentParser(description="Run experiment")
+    parser.add_argument("--model", type=str, required=True, help="Model name")
+    parser.add_argument("--task", type=str, required=True, help="Task name")
+    parser.add_argument("--exp_type", type=str, required=True, help="Experiment type")
+    parser.add_argument("--config_dir", type=str, default="configs", help="Config directory")
+    parser.add_argument("--output_dir", type=str, default="experiments", help="Output directory")
+    parser.add_argument("--device", type=str, help="Device to use (cuda or cpu). Auto-detects if not specified.")
+    parser.add_argument("--seed", type=int, default=42, help="Random seed")
     
     args = parser.parse_args()
     

@@ -35,21 +35,31 @@ class NLIDataset(Dataset):
         """Load dataset from HuggingFace"""
         dataset_name = config.get("name", "nyu-mll/multi_nli")
         
-        # Handle MNLI dataset which doesn't have a simple 'validation' split
-        if dataset_name in ["nyu-mll/multi_nli", "multi_nli", "glue/mnli"]:
-            if split == "validation":
-                if validation_type == "matched":
-                    split = "validation_matched"
-                elif validation_type == "mismatched":
-                    split = "validation_mismatched"
-                elif validation_type == "both":
-                    # Load both and concatenate
-                    matched = load_dataset(dataset_name, split="validation_matched", trust_remote_code=True)
-                    mismatched = load_dataset(dataset_name, split="validation_mismatched", trust_remote_code=True)
-                    return concatenate_datasets([matched, mismatched])
-        
-        # CORRECTION : Ajouter trust_remote_code=True pour gérer les datasets comme HANS
-        return load_dataset(dataset_name, split=split, trust_remote_code=True)
+        try:
+            # Handle MNLI dataset which doesn't have a simple 'validation' split
+            if dataset_name in ["nyu-mll/multi_nli", "multi_nli", "glue/mnli"]:
+                if split == "validation":
+                    if validation_type == "matched":
+                        split = "validation_matched"
+                    elif validation_type == "mismatched":
+                        split = "validation_mismatched"
+                    elif validation_type == "both":
+                        # Load both and concatenate
+                        matched = load_dataset(dataset_name, split="validation_matched")
+                        mismatched = load_dataset(dataset_name, split="validation_mismatched")
+                        return concatenate_datasets([matched, mismatched])
+            
+            # Try to load with trust_remote_code=False first
+            try:
+                return load_dataset(dataset_name, split=split)
+            except (ValueError, TypeError):
+                # Fall back to trust_remote_code=True if needed
+                return load_dataset(dataset_name, split=split, trust_remote_code=True)
+                
+        except Exception as e:
+            logger.warning(f"Failed to load dataset {dataset_name} (split: {split}): {str(e)}")
+            logger.warning("Skipping this dataset.")
+            return None
     
     def __len__(self):
         return len(self.id_dataset)
