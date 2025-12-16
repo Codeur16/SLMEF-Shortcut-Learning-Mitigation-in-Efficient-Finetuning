@@ -3,9 +3,13 @@ NLI dataset handling
 """
 
 from datasets import load_dataset, concatenate_datasets
+import os
 import torch
 from torch.utils.data import Dataset
 import logging
+from typing import Optional
+
+from .hans_dataset import HANSDataset
 
 logger = logging.getLogger(__name__)
 
@@ -31,13 +35,40 @@ class NLIDataset(Dataset):
         if self.ood_dataset:
             logger.info(f"Loaded NLI OOD dataset: {len(self.ood_dataset)} samples")
     
-    def _load_dataset(self, config: dict, split: str, validation_type: str = "matched"):
-        """Load dataset from HuggingFace"""
+    def _load_dataset(self, config: dict, split: str, validation_type: str = "matched") -> Optional[Dataset]:
+        """
+        Load dataset from HuggingFace or local file
+        
+        Args:
+            config: Configuration dictionary containing dataset parameters
+            split: Dataset split to load
+            validation_type: Type of validation split ('matched', 'mismatched', 'both')
+            
+        Returns:
+            Loaded dataset or None if loading fails
+        """
         dataset_name = config.get("name", "nyu-mll/multi_nli")
+        
+        # Handle local HANS dataset
+        if dataset_name.lower() in ["hans", "jhu-cogsci/hans"]:
+            # Try multiple possible locations for the HANS dataset
+            possible_paths = [
+                os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'data', 'hans_test_data.csv'),
+                os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'hans_test_data.csv'),
+                'hans_test_data.csv'
+            ]
+            
+            for hans_path in possible_paths:
+                if os.path.exists(hans_path):
+                    logger.info(f"Loading HANS dataset from local file: {hans_path}")
+                    return HANSDataset(hans_path, split=split)
+            
+            logger.warning(f"HANS dataset file not found in any of the expected locations: {possible_paths}")
+            return None
         
         try:
             # Handle MNLI dataset which doesn't have a simple 'validation' split
-            if dataset_name in ["nyu-mll/multi_nli", "multi_nli", "glue/mnli"]:
+            if dataset_name.lower() in ["nyu-mll/multi_nli", "multi_nli", "glue/mnli"]:
                 if split == "validation":
                     if validation_type == "matched":
                         split = "validation_matched"
@@ -45,20 +76,32 @@ class NLIDataset(Dataset):
                         split = "validation_mismatched"
                     elif validation_type == "both":
                         # Load both and concatenate
-                        matched = load_dataset(dataset_name, split="validation_matched")
-                        mismatched = load_dataset(dataset_name, split="validation_mismatched")
+                        matched = load_dataset("nyu-mll/multi_nli", split="validation_matched")
+                        mismatched = load_dataset("nyu-mll/multi_nli", split="validation_mismatched")
                         return concatenate_datasets([matched, mismatched])
             
-            # Try to load with trust_remote_code=False first
+            # Load other datasets
             try:
-                return load_dataset(dataset_name, split=split)
-            except (ValueError, TypeError):
-                # Fall back to trust_remote_code=True if needed
-                return load_dataset(dataset_name, split=split, trust_remote_code=True)
+                dataset = load_dataset(dataset_name, split=split)
+                # Ensure the dataset has the required columns
+                if not all(field in dataset.column_names for field in ["premise", "hypothesis"]):
+                    logger.warning(f"Dataset {dataset_name} is missing required columns (premise, hypothesis)")
+                    return None
+                return dataset
+            except (ValueError, TypeError) as e:
+                try:
+                    # Fall back to trust_remote_code=True if needed
+                    dataset = load_dataset(dataset_name, split=split, trust_remote_code=True)
+                    if not all(field in dataset.column_names for field in ["premise", "hypothesis"]):
+                        logger.warning(f"Dataset {dataset_name} is missing required columns (premise, hypothesis)")
+                        return None
+                    return dataset
+                except Exception as inner_e:
+                    logger.warning(f"Failed to load dataset {dataset_name} with trust_remote_code=True: {str(inner_e)}")
+                    return None
                 
         except Exception as e:
             logger.warning(f"Failed to load dataset {dataset_name} (split: {split}): {str(e)}")
-            logger.warning("Skipping this dataset.")
             return None
     
     def __len__(self):

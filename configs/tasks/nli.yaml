@@ -2,23 +2,45 @@
 task_name: "nli"
 task_type: "classification"
 
-# Datasets
+# In-Distribution Dataset (MNLI)
 id_dataset:
   name: "nyu-mll/multi_nli"
-  split: "validation_matched"
+  split: "validation_matched"  # Options: validation_matched, validation_mismatched, or both
   text_fields: ["premise", "hypothesis"]
   label_field: "label"
   label_names: ["entailment", "neutral", "contradiction"]
 
+# Out-of-Distribution Dataset (HANS)
 ood_dataset:
-  name: "jhu-cogsci/hans"
+  name: "hans"  # Will load from local file
   split: "validation"
   text_fields: ["premise", "hypothesis"]
   label_field: "label"
+  label_names: ["entailment", "non-entailment"]
 
 # Task-specific settings
-num_labels: 3
+num_labels: 3  # For MNLI (entailment, neutral, contradiction)
 problem_type: "single_label_classification"
 
-# Metrics
-metrics: ["accuracy", "f1_macro", "robustness_gap"]
+# Evaluation settings
+evaluation:
+  # Metrics for ID evaluation
+  id_metrics: ["accuracy", "f1_macro"]
+  
+  # Metrics for OOD evaluation (HANS)
+  ood_metrics: ["accuracy", "f1_score"]
+  
+  # Additional metrics
+  robustness_metrics: ["robustness_gap"]
+
+# Data loading settings
+data_loading:
+  # Maximum sequence length (tokens)
+  max_length: 128
+  
+  # Batch sizes
+  train_batch_size: 32
+  eval_batch_size: 64
+  
+  # Number of workers for data loading
+  num_workers: 4
