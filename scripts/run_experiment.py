@@ -15,7 +15,7 @@ from src.utils.config_loader import load_experiment_config
 from src.utils.logger import setup_logger
 from src.utils.helpers import set_seed
 from src.models.factory import ModelFactory
-from src.data.dataset_factory import DatasetFactory
+from src.datasets.dataset_factory import DatasetFactory
 from src.rules import (
     NLIRuleEngine, SentimentRuleEngine, 
     QARuleEngine, ParaphraseRuleEngine
