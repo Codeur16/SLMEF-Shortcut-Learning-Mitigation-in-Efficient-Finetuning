@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 class NLIDataset(Dataset):
     """Natural Language Inference dataset"""
     
-    def __init__(self, config: dict, split: str = "validation"):
+    def __init__(self, config: dict, split: str = "validation_matched"):
         self.config = config
         self.split = split
         
