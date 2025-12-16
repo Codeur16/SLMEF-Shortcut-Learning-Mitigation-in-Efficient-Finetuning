@@ -11,7 +11,7 @@ text
 *.pyc
 .DS_Store
 .vscode/
-data/
+# data/
 logs/
 uecfood256_sampled/
 model_saved/
@@ -30,7 +30,7 @@ exported_usda_food.json
 *.tex
 baby_back_ribs.jpg
 # Data
-data/
+# data/
 cache/
 experiments/
 *.csv
