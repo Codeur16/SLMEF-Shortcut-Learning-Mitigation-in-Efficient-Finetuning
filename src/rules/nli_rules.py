@@ -1,9 +1,10 @@
 """
 NLI-specific rules for shortcut detection
 """
-
+from typing import Any
 import re
 from .rule_engine import BaseRule
+
 
 class LexicalOverlapRule(BaseRule):
     """Rule for lexical overlap shortcut in NLI"""

@@ -1,7 +1,7 @@
 """
 Paraphrase detection rules
 """
-
+from typing import Any
 import re
 from .rule_engine import BaseRule
 

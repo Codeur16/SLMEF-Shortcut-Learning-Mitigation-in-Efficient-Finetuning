@@ -1,7 +1,7 @@
 """
 Question answering rules
 """
-
+from typing import Any
 import re
 from .rule_engine import BaseRule
 

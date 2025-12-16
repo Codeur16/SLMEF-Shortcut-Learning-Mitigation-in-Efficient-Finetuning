@@ -1,7 +1,7 @@
 """
 Base rule engine for detecting shortcuts
 """
-
+from typing import Any
 from abc import ABC, abstractmethod
 from typing import List, Dict, Any, Optional
 import logging

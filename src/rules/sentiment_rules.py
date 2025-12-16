@@ -1,7 +1,7 @@
 """
 Sentiment analysis rules
 """
-
+from typing import Any
 from .rule_engine import BaseRule
 
 class SentimentLexiconRule(BaseRule):
