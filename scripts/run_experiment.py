@@ -23,7 +23,10 @@ from src.rules import (
 )
 from src.training import QLoRATrainer, RGPEftTrainer
 from src.evaluation import Evaluator
+# evaluator = Evaluator(model, device)
 
+# Utilisez :
+from src.evaluation.evaluator import create_evaluator
 logger = setup_logger(__name__)
 
 def run_experiment(
@@ -152,9 +155,16 @@ def run_experiment(
     # Run experiment based on type
     if exp_type == "base_eval":
         logger.info("Running base model evaluation...")
-        evaluator = Evaluator(model, device)
+            # Créer l'évaluateur approprié
+        evaluator = create_evaluator(
+            model=model,
+            device=device,
+            model_type=config.get("model_type", "bert"),
+            dataset_type=dataset_type
+        )
+       # Évaluation
         results = evaluator.evaluate_id_ood(id_dataloader, ood_dataloader)
-    
+            
     elif exp_type == "qlora_ft":
         logger.info("Running QLoRA fine-tuning...")
         trainer = QLoRATrainer(model, config, device)
