@@ -1,0 +1,19 @@
+# Question Answering Configuration
+task_name: "qa"
+task_type: "classification"
+
+# Datasets
+id_dataset:
+  name: "google/boolq"
+  split: "validation"
+  text_fields: ["question", "passage"]
+  label_field: "answer"
+  label_names: ["false", "true"]
+
+# Task-specific settings
+num_labels: 2
+problem_type: "single_label_classification"
+max_length: 512
+
+# Metrics
+metrics: ["accuracy", "f1_macro"]

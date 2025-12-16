@@ -1,0 +1,25 @@
+# Paraphrase Identification Configuration
+task_name: "paraphrase"
+task_type: "classification"
+
+# Datasets
+id_dataset:
+  name: "SetFit/mrpc"
+  split: "validation"
+  text_fields: ["sentence1", "sentence2"]
+  label_field: "label"
+  label_names: ["not_equivalent", "equivalent"]
+
+ood_dataset:
+  name: "paws"
+  config: "labeled_final"
+  split: "validation"
+  text_fields: ["sentence1", "sentence2"]
+  label_field: "label"
+
+# Task-specific settings
+num_labels: 2
+problem_type: "single_label_classification"
+
+# Metrics
+metrics: ["accuracy", "f1_macro", "robustness_gap"]

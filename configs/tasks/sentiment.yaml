@@ -1,0 +1,22 @@
+# Sentiment Analysis Configuration
+task_name: "sentiment"
+task_type: "classification"
+
+# Datasets
+id_dataset:
+  name: "stanfordnlp/sst2"
+  split: "validation"
+  text_field: "sentence"
+  label_field: "label"
+  label_names: ["negative", "positive"]
+
+# For OOD, we create contrastive examples
+ood_samples: 1000
+contrastive_patterns: ["negation", "intensifiers", "contrast"]
+
+# Task-specific settings
+num_labels: 2
+problem_type: "single_label_classification"
+
+# Metrics
+metrics: ["accuracy", "f1_macro"]

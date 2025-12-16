@@ -1,0 +1,24 @@
+# Natural Language Inference Configuration
+task_name: "nli"
+task_type: "classification"
+
+# Datasets
+id_dataset:
+  name: "nyu-mll/multi_nli"
+  split: "validation_matched"
+  text_fields: ["premise", "hypothesis"]
+  label_field: "label"
+  label_names: ["entailment", "neutral", "contradiction"]
+
+ood_dataset:
+  name: "jhu-cogsci/hans"
+  split: "validation"
+  text_fields: ["premise", "hypothesis"]
+  label_field: "label"
+
+# Task-specific settings
+num_labels: 3
+problem_type: "single_label_classification"
+
+# Metrics
+metrics: ["accuracy", "f1_macro", "robustness_gap"]

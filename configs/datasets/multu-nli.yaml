@@ -1,4 +1,0 @@
-dataset:
-  name: "MNLI"
-  path: "data/processed/mnli/"
-  num_classes: 3

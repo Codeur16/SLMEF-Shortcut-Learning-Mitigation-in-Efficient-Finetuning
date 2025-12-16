@@ -1,0 +1,27 @@
+# RoBERTa Configuration
+model_name: "roberta-large"
+model_type: "roberta"
+architecture: "encoder"
+
+# Model details
+hidden_size: 1024
+num_attention_heads: 16
+num_hidden_layers: 24
+max_length: 512
+
+# LoRA Configuration
+lora:
+  enabled: true
+  r: 16
+  lora_alpha: 32
+  lora_dropout: 0.1
+  target_modules: ["query", "value"]
+
+# Training
+learning_rate: 1e-4
+batch_size: 16
+num_epochs: 10
+gradient_accumulation_steps: 2
+
+# Evaluation
+eval_batch_size: 32

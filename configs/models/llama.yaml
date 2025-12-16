@@ -1,0 +1,31 @@
+# LLaMA-2 Configuration
+model_name: "meta-llama/Llama-2-7b-hf"
+model_type: "llama"
+architecture: "decoder"
+
+# Model details
+hidden_size: 4096
+num_attention_heads: 32
+num_hidden_layers: 32
+max_length: 512
+
+# QLoRA Configuration (4-bit)
+qlora:
+  enabled: true
+  r: 16
+  lora_alpha: 32
+  lora_dropout: 0.1
+  target_modules: ["q_proj", "v_proj"]
+  bits: 4
+  double_quant: true
+
+# Training
+learning_rate: 1e-4
+batch_size: 4
+num_epochs: 10
+gradient_accumulation_steps: 8
+gradient_checkpointing: true
+
+# Memory optimization
+use_flash_attention: true
+fp16: true

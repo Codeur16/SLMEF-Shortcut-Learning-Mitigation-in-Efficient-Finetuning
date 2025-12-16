@@ -333,7 +333,7 @@ class FlanT5Model(BaseModel):
         # Push to HuggingFace Hub (use the original save_dir, not backup)
         if push_to_hub:
             if not hf_repo or not hf_token or hf_token.strip() == "" or hf_token == "your_huggingface_token_here ":
-                print("⚠️ Push to HuggingFace is enabled but HF_HUB_REPO or HF_HUB_TOKEN are missing/invalid")
+                print(" Push to HuggingFace is enabled but HF_HUB_REPO or HF_HUB_TOKEN are missing/invalid")
                 print("   Set HF_HUB_REPO and HF_HUB_TOKEN environment variables or configure in YAML")
             else:
                 try:
@@ -352,7 +352,7 @@ class FlanT5Model(BaseModel):
                     print(" Upload completed successfully on HuggingFace Hub")
 
                 except Exception as e:
-                    print(f"❌ Error when sending to HuggingFace: {e}")
+                    print(f" Error when sending to HuggingFace: {e}")
         else:
             print("ℹ️ Push to HuggingFace disabled (`push_to_hub=False`).")
     
