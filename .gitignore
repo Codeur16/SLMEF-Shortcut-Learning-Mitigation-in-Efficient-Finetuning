@@ -30,3 +30,49 @@ experiments/**/checkpoints*
 
 # OS
 .DS_Store
+
+
+# IDE
+.idea/
+*.iml
+*.iws
+*.ipr
+*.exe
+*.dll
+*.so
+*.dylib
+*.class
+*.swp
+
+# Node
+node_modules/
+
+# Gradle
+.gradle/
+build/
+
+# Maven
+target/
+
+# Others
+*.orig
+*.rej
+.env
+.env.*
+.local
+.venv
+*.pyc
+*.pyo
+*.egg-info/
+*.eggs/
+dist/
+.eggs/
+.tox/
+.nox/
+.mypy_cache/
+.pytest_cache/
+__pycache__/
+.venv
+.vscode
+rgft_experiments.egg-info
+state.dylib

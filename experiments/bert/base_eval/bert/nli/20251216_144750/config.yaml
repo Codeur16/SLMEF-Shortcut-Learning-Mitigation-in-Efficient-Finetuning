@@ -1,0 +1,62 @@
+architecture: encoder
+batch_size: 16
+data_loading:
+  eval_batch_size: 64
+  max_length: 128
+  num_workers: 4
+  train_batch_size: 32
+evaluation:
+  id_metrics:
+  - accuracy
+  - f1_macro
+  ood_metrics:
+  - accuracy
+  - f1_score
+  robustness_metrics:
+  - robustness_gap
+experiment:
+  model: bert
+  task: nli
+  type: base_eval
+gradient_accumulation_steps: 2
+hidden_size: 768
+id_dataset:
+  label_field: label
+  label_names:
+  - entailment
+  - neutral
+  - contradiction
+  name: nyu-mll/multi_nli
+  split: validation_matched
+  text_fields:
+  - premise
+  - hypothesis
+learning_rate: 2e-5
+lora:
+  enabled: true
+  lora_alpha: 16
+  lora_dropout: 0.1
+  r: 8
+  target_modules:
+  - query
+  - value
+max_length: 512
+model_name: bert-base-uncased
+model_type: bert
+num_attention_heads: 12
+num_epochs: 10
+num_hidden_layers: 12
+num_labels: 3
+ood_dataset:
+  label_field: label
+  label_names:
+  - entailment
+  - non-entailment
+  name: hans
+  split: validation
+  text_fields:
+  - premise
+  - hypothesis
+problem_type: single_label_classification
+task_name: nli
+task_type: classification

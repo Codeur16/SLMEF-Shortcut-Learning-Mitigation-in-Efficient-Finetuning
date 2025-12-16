@@ -14,6 +14,7 @@ id_dataset:
 ood_dataset:
   name: "hans"  # Will load from local file
   split: "validation"
+  path: "data/hans_test_data.csv"
   text_fields: ["premise", "hypothesis"]
   label_field: "label"
   label_names: ["entailment", "non-entailment"]
