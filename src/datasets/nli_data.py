@@ -138,6 +138,37 @@ class NLIDataset(Dataset):
             "text": f"Premise: {premise} Hypothesis: {hypothesis}"
         }
     
+    # def tokenize(self, tokenizer, max_length=512):
+    #     """Tokenize dataset"""
+    #     def tokenize_function(examples):
+    #         return tokenizer(
+    #             examples["premise"],
+    #             examples["hypothesis"],
+    #             truncation=True,
+    #             padding="max_length",
+    #             max_length=max_length
+    #         )
+        
+    #     tokenized_id = self.id_dataset.map(
+    #         tokenize_function,
+    #         batched=True
+    #     )
+        
+    #     tokenized_id.set_format(type="torch", columns=["input_ids", "attention_mask", "label"])
+        
+    #     if self.ood_dataset:
+    #         tokenized_ood = self.ood_dataset.map(
+    #             tokenize_function,
+    #             batched=True
+    #         )
+    #         tokenized_ood.set_format(type="torch", columns=["input_ids", "attention_mask", "label"])
+    #         return tokenized_id, tokenized_ood
+        
+    #     return tokenized_id, None
+   
+    
+
+
     def tokenize(self, tokenizer, max_length=512):
         """Tokenize dataset"""
         def tokenize_function(examples):
@@ -149,19 +180,68 @@ class NLIDataset(Dataset):
                 max_length=max_length
             )
         
-        tokenized_id = self.id_dataset.map(
-            tokenize_function,
-            batched=True
-        )
-        
-        tokenized_id.set_format(type="torch", columns=["input_ids", "attention_mask", "label"])
-        
-        if self.ood_dataset:
-            tokenized_ood = self.ood_dataset.map(
+        # Handle ID dataset
+        if hasattr(self.id_dataset, 'set_format'):
+            tokenized_id = self.id_dataset.map(
                 tokenize_function,
                 batched=True
             )
-            tokenized_ood.set_format(type="torch", columns=["input_ids", "attention_mask", "label"])
-            return tokenized_id, tokenized_ood
+            tokenized_id.set_format(type="torch", columns=["input_ids", "attention_mask", "label"])
+        else:
+            # Handle HANSDataset case
+            tokenized_id = {
+                "input_ids": [],
+                "attention_mask": [],
+                "label": []
+            }
+            for i in range(len(self.id_dataset)):
+                item = self.id_dataset[i]
+                encoded = tokenizer(
+                    item["premise"],
+                    item["hypothesis"],
+                    truncation=True,
+                    padding="max_length",
+                    max_length=max_length,
+                    return_tensors="pt"
+                )
+                tokenized_id["input_ids"].append(encoded["input_ids"].squeeze(0))
+                tokenized_id["attention_mask"].append(encoded["attention_mask"].squeeze(0))
+                tokenized_id["label"].append(torch.tensor(item["label"]))
+            
+            # Convert lists to tensors
+            tokenized_id = {k: torch.stack(v) for k, v in tokenized_id.items()}
         
-        return tokenized_id, None
+        # Handle OOD dataset if it exists
+        tokenized_ood = None
+        if self.ood_dataset:
+            if hasattr(self.ood_dataset, 'set_format'):
+                tokenized_ood = self.ood_dataset.map(
+                    tokenize_function,
+                    batched=True
+                )
+                tokenized_ood.set_format(type="torch", columns=["input_ids", "attention_mask", "label"])
+            else:
+                # Handle HANSDataset case for OOD
+                tokenized_ood = {
+                    "input_ids": [],
+                    "attention_mask": [],
+                    "label": []
+                }
+                for i in range(len(self.ood_dataset)):
+                    item = self.ood_dataset[i]
+                    encoded = tokenizer(
+                        item["premise"],
+                        item["hypothesis"],
+                        truncation=True,
+                        padding="max_length",
+                        max_length=max_length,
+                        return_tensors="pt"
+                    )
+                    tokenized_ood["input_ids"].append(encoded["input_ids"].squeeze(0))
+                    tokenized_ood["attention_mask"].append(encoded["attention_mask"].squeeze(0))
+                    tokenized_ood["label"].append(torch.tensor(item["label"]))
+                
+                # Convert lists to tensors
+                tokenized_ood = {k: torch.stack(v) for k, v in tokenized_ood.items()}
+        
+        return tokenized_id, tokenized_ood
